@@ -1,13 +1,8 @@
 node_modules/
 dist/
 .env
-.env.local
-package-lock.json
 *.log
 .DS_Store
-coverage/
+*.swp
 .vscode/
 .idea/
-*.swp
-*.swo
-*~

@@ -1,0 +1,73 @@
+@import url('../contact-dashboard/styles.css');
+
+.create-form {
+  background: #1a1f3a;
+  border: 1px solid #2d3552;
+  border-radius: 0.75rem;
+  padding: 1.5rem;
+  margin-bottom: 2rem;
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+}
+
+.text-input {
+  flex: 1;
+  background: #0a0e27;
+  border: 1px solid #2d3552;
+  border-radius: 0.5rem;
+  padding: 0.75rem 1rem;
+  color: #e4e7eb;
+  font-size: 1rem;
+}
+
+.text-input:focus {
+  outline: none;
+  border-color: #3b82f6;
+}
+
+.lists-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 1.5rem;
+}
+
+.list-card {
+  background: #1a1f3a;
+  border: 1px solid #2d3552;
+  border-radius: 0.75rem;
+  padding: 1.5rem;
+  transition: border-color 0.2s, transform 0.2s;
+}
+
+.list-card:hover {
+  border-color: #3b82f6;
+  transform: translateY(-2px);
+}
+
+.list-card h3 {
+  font-size: 1.25rem;
+  color: #fff;
+  margin-bottom: 0.5rem;
+}
+
+.list-desc {
+  color: #9ca3af;
+  font-size: 0.9rem;
+  margin-bottom: 1rem;
+}
+
+.list-stats {
+  margin-bottom: 1rem;
+}
+
+.member-count {
+  color: #3b82f6;
+  font-weight: 600;
+  font-size: 0.95rem;
+}
+
+.list-actions {
+  display: flex;
+  gap: 0.75rem;
+}

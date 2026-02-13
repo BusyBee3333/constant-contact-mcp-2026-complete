@@ -1,254 +1,608 @@
-> **🚀 Don't want to self-host?** [Join the waitlist for our fully managed solution →](https://mcpengage.com/constantcontact)
-> 
-> Zero setup. Zero maintenance. Just connect and automate.
+# Constant Contact MCP Server
 
----
+A comprehensive Model Context Protocol (MCP) server for the Constant Contact API v3, providing full access to email marketing, campaign management, contact management, analytics, and automation features.
 
-# 🚀 Constant Contact MCP Server — 2026 Complete Version
+## 🚀 Features
 
-## 💡 What This Unlocks
+### Complete API Coverage
+- **Campaigns**: Create, edit, clone, schedule, send email campaigns
+- **Contacts**: Manage contacts with full CRUD operations, import/export, and advanced search
+- **Lists**: Create and manage contact lists with member management
+- **Segments**: Build dynamic audience segments with advanced filtering
+- **Tags**: Organize contacts with custom tagging system
+- **Templates**: Access and manage email templates
+- **Landing Pages**: Create and publish landing pages
+- **Reporting**: Access campaign analytics, engagement metrics, and bounce reports
+- **Social Media**: Schedule and manage social posts
 
-**This MCP server gives AI direct access to your entire Constant Contact email marketing workspace.** Instead of clicking through interfaces, you just *tell* it what you need.
+### 17 Interactive React Applications
+Full-featured UI components for visual interaction with Constant Contact data:
+- Campaign Builder & Dashboard
+- Contact Management Grid & Detail Views
+- List Manager with Drag-and-Drop
+- Segment Builder with Visual Filtering
+- Tag Manager
+- Template Gallery
+- Landing Page Grid
+- Analytics Dashboards
+- Import Wizard
+- Social Media Manager
+- And more...
 
-Constant Contact is the trusted email marketing platform for 600,000+ small businesses, non-profits, and creators. This MCP server brings its contact management and campaign tools into your AI workflow.
-
-### 🎯 Email Marketing Power Moves
-
-Stop context-switching between Claude and Constant Contact. The AI can directly control your campaigns:
-
-1. **Event-driven campaigns** — "Create a 'Last Chance Webinar' campaign for list #15, send tomorrow at 10am, use our standard footer address"
-2. **List intelligence** — "Show me all lists with more than 500 members, compare their active vs unsubscribed ratios, recommend which to target next"
-3. **Campaign performance analysis** — "Pull stats for campaigns sent in Q1, identify the top 3 by click rate, what subject lines did they use?"
-4. **Contact migration** — "Export all contacts from list 'Old Newsletter' and add them to list 'New Weekly Digest', preserve their custom fields"
-5. **Compliance-ready additions** — "Add these 20 trade show contacts to list #8, mark source as 'Conference 2026', ensure they get the double opt-in email"
-
-### 🔗 The Real Power: Combining Tools
-
-AI can chain multiple Constant Contact operations together:
-
-- Query lists → Filter by engagement → Create targeted campaign → Track opens and clicks
-- Import contacts → Validate data → Auto-sort into segments → Trigger welcome campaign
-- Analyze campaign stats → Identify best performers → Clone winning templates → Schedule A/B tests
-
-## 📦 What's Inside
-
-**7 powerful API tools** covering Constant Contact's email marketing platform:
-
-1. **list_contacts** — Query contacts with filters, segmentation, and pagination
-2. **add_contact** — Create contacts with custom fields, phone numbers, and list memberships
-3. **list_campaigns** — Browse email campaigns (activities) by date range
-4. **create_campaign** — Build email campaigns with HTML, text, and required CAN-SPAM footer
-5. **list_lists** — Get all contact lists with membership counts
-6. **add_to_list** — Bulk-add contacts to lists via activity API
-7. **get_campaign_stats** — Fetch tracking stats (sends, opens, clicks, bounces, unsubscribes)
-
-All with proper error handling, OAuth2 authentication, and TypeScript types.
-
-**API Foundation:** [Constant Contact API v3](https://developer.constantcontact.com/api_guide/index.html) (REST)
-
-## 🚀 Quick Start
-
-### Option 1: Claude Desktop (Local)
-
-1. **Clone and build:**
-   ```bash
-   git clone https://github.com/BusyBee3333/Constant-Contact-MCP-2026-Complete.git
-   cd constant-contact-mcp-2026-complete
-   npm install
-   npm run build
-   ```
-
-2. **Get your Constant Contact OAuth2 access token:**
-   - Go to [Constant Contact Developer Portal](https://v3.developer.constantcontact.com/)
-   - Create an application or use an existing one
-   - Complete the OAuth2 authorization flow to get an access token
-   - You'll need: API Key, App Secret, and Access Token (with `contact_data` and `campaign_data` scopes)
-   - **Note:** Constant Contact requires OAuth2—you can't use a simple API key
-
-3. **Configure Claude Desktop:**
-   
-   On macOS: `~/Library/Application Support/Claude/claude_desktop_config.json`
-   
-   On Windows: `%APPDATA%\Claude\claude_desktop_config.json`
-
-   ```json
-   {
-     "mcpServers": {
-       "constantcontact": {
-         "command": "node",
-         "args": ["/ABSOLUTE/PATH/TO/constant-contact-mcp-2026-complete/dist/index.js"],
-         "env": {
-           "CONSTANT_CONTACT_ACCESS_TOKEN": "your-oauth2-access-token"
-         }
-       }
-     }
-   }
-   ```
-
-4. **Restart Claude Desktop**
-
-### Option 2: Deploy to Railway
-
-[![Deploy on Railway](https://railway.app/button.svg)](https://railway.app/template/constantcontact-mcp)
-
-1. Click the button above
-2. Set `CONSTANT_CONTACT_ACCESS_TOKEN` in Railway dashboard
-3. Use the Railway URL as your MCP server endpoint
-
-### Option 3: Docker
+## 📦 Installation
 
 ```bash
-docker build -t constantcontact-mcp .
-docker run -p 3000:3000 \
-  -e CONSTANT_CONTACT_ACCESS_TOKEN=your-token \
-  constantcontact-mcp
+npm install -g @mcpengine/constant-contact-server
 ```
 
-## 🔐 Authentication
+Or use directly with npx:
 
-**Constant Contact uses OAuth 2.0 Bearer token authentication** (API v3):
+```bash
+npx @mcpengine/constant-contact-server
+```
 
-- **Header:** `Authorization: Bearer YOUR_ACCESS_TOKEN`
-- **Grant types:** Authorization Code (for user accounts), Implicit (for quick testing)
-- **Scopes required:** `contact_data`, `campaign_data`
-- **Token lifespan:** Access tokens expire after 24 hours; use refresh tokens for long-term access
-- **Rate limits:** 10,000 calls/day on free trials, higher on paid plans
+## 🔧 Configuration
 
-**OAuth2 Setup Guide:**
-1. Register your app at: https://v3.developer.constantcontact.com/
-2. Use the OAuth2 Playground or your own redirect URL
-3. Store the access token securely
-4. Implement refresh token logic for production use
+### Environment Variables
 
-The MCP server handles authentication automatically—just set `CONSTANT_CONTACT_ACCESS_TOKEN`.
+Create a `.env` file in your project root:
 
-## 🎯 Example Prompts for Email Marketers
+```env
+CONSTANT_CONTACT_API_KEY=your_api_key_here
+CONSTANT_CONTACT_ACCESS_TOKEN=your_access_token_here
+```
 
-Once connected to Claude, use natural language. Here are real email marketing workflows:
+### Getting API Credentials
+
+1. Go to [Constant Contact Developer Portal](https://app.constantcontact.com/pages/dma/portal/)
+2. Create a new application
+3. Note your API Key
+4. Complete OAuth2 flow to get Access Token
+5. Store both in your `.env` file
+
+## 🛠️ Available Tools
+
+### Campaign Tools (campaigns-tools.ts)
+
+#### `constant-contact-create-campaign`
+Create a new email campaign.
+
+**Parameters:**
+- `name` (required): Campaign name
+- `from_name` (required): Sender name
+- `from_email` (required): Sender email address
+- `reply_to_email` (required): Reply-to email address
+- `subject` (required): Email subject line
+- `html_content` (required): HTML email content
+- `preheader_text` (optional): Preview text
+
+**Example:**
+```json
+{
+  "name": "Spring Sale 2024",
+  "from_name": "Acme Store",
+  "from_email": "sales@acme.com",
+  "reply_to_email": "support@acme.com",
+  "subject": "🌸 Spring Sale - 30% Off Everything!",
+  "html_content": "<html>...</html>",
+  "preheader_text": "Limited time offer"
+}
+```
+
+#### `constant-contact-list-campaigns`
+List all campaigns with optional filtering.
+
+**Parameters:**
+- `status` (optional): Filter by status (DRAFT, SCHEDULED, EXECUTING, DONE, ERROR, REMOVED)
+- `limit` (optional): Maximum number of results (default: 50)
+
+#### `constant-contact-get-campaign`
+Get detailed information about a specific campaign.
+
+**Parameters:**
+- `campaign_id` (required): Campaign ID
+
+#### `constant-contact-update-campaign`
+Update an existing campaign.
+
+**Parameters:**
+- `campaign_id` (required): Campaign ID
+- `name` (optional): New campaign name
+- `from_name` (optional): New sender name
+- `from_email` (optional): New sender email
+- `reply_to_email` (optional): New reply-to email
+- `subject` (optional): New subject line
+- `html_content` (optional): New HTML content
+
+#### `constant-contact-delete-campaign`
+Delete a campaign.
+
+**Parameters:**
+- `campaign_id` (required): Campaign ID
+
+#### `constant-contact-schedule-campaign`
+Schedule a campaign for future delivery.
+
+**Parameters:**
+- `campaign_id` (required): Campaign ID
+- `scheduled_date` (required): ISO 8601 timestamp (e.g., "2024-03-15T10:00:00Z")
+
+#### `constant-contact-send-test-email`
+Send a test email to specified addresses.
+
+**Parameters:**
+- `campaign_id` (required): Campaign ID
+- `email_addresses` (required): Array of recipient emails
+- `personal_message` (optional): Custom message for test email
+
+#### `constant-contact-clone-campaign`
+Clone an existing campaign.
+
+**Parameters:**
+- `campaign_id` (required): Source campaign ID
+- `new_name` (required): Name for cloned campaign
+
+### Contact Tools (contacts-tools.ts)
+
+#### `constant-contact-create-contact`
+Create a new contact.
+
+**Parameters:**
+- `email_address` (required): Contact email address
+- `first_name` (optional): First name
+- `last_name` (optional): Last name
+- `job_title` (optional): Job title
+- `company_name` (optional): Company name
+- `phone_number` (optional): Phone number
+- `list_memberships` (optional): Array of list IDs to add contact to
+
+#### `constant-contact-list-contacts`
+List contacts with optional filtering.
+
+**Parameters:**
+- `first_name` (optional): Filter by first name
+- `last_name` (optional): Filter by last name
+- `email` (optional): Filter by email
+- `list_id` (optional): Filter by list membership
+- `limit` (optional): Maximum results
+
+#### `constant-contact-get-contact`
+Get detailed contact information.
+
+**Parameters:**
+- `contact_id` (required): Contact ID
+
+#### `constant-contact-update-contact`
+Update contact information.
+
+**Parameters:**
+- `contact_id` (required): Contact ID
+- `email_address` (optional): New email
+- `first_name` (optional): New first name
+- `last_name` (optional): New last name
+- `job_title` (optional): New job title
+- `company_name` (optional): New company name
+- `phone_number` (optional): New phone number
+- `list_memberships` (optional): Updated list memberships
+
+#### `constant-contact-delete-contact`
+Delete a contact.
+
+**Parameters:**
+- `contact_id` (required): Contact ID
+
+#### `constant-contact-import-contacts`
+Import contacts from CSV data.
+
+**Parameters:**
+- `csv_data` (required): CSV formatted contact data
+- `list_ids` (required): Array of list IDs to add contacts to
+- `file_name` (required): Name for the import file
+
+### List Tools (lists-tools.ts)
+
+#### `constant-contact-create-list`
+Create a new contact list.
+
+**Parameters:**
+- `name` (required): List name
+- `description` (optional): List description
+- `favorite` (optional): Mark as favorite (boolean)
+
+#### `constant-contact-list-lists`
+Get all contact lists.
+
+**Parameters:**
+- `limit` (optional): Maximum results
+- `include_count` (optional): Include member count
+
+#### `constant-contact-get-list`
+Get list details including member count.
+
+**Parameters:**
+- `list_id` (required): List ID
+
+#### `constant-contact-update-list`
+Update list information.
+
+**Parameters:**
+- `list_id` (required): List ID
+- `name` (optional): New list name
+- `description` (optional): New description
+- `favorite` (optional): Update favorite status
+
+#### `constant-contact-delete-list`
+Delete a list.
+
+**Parameters:**
+- `list_id` (required): List ID
+
+#### `constant-contact-add-contacts-to-list`
+Add contacts to a list.
+
+**Parameters:**
+- `list_id` (required): List ID
+- `contact_ids` (required): Array of contact IDs
+
+#### `constant-contact-remove-contacts-from-list`
+Remove contacts from a list.
+
+**Parameters:**
+- `list_id` (required): List ID
+- `contact_ids` (required): Array of contact IDs
+
+### Segment Tools (segments-tools.ts)
+
+#### `constant-contact-create-segment`
+Create a dynamic audience segment.
+
+**Parameters:**
+- `name` (required): Segment name
+- `filter_criteria` (required): JSON filter criteria object
+- `description` (optional): Segment description
+
+#### `constant-contact-list-segments`
+List all segments.
+
+**Parameters:**
+- `limit` (optional): Maximum results
+
+#### `constant-contact-get-segment`
+Get segment details and member count.
+
+**Parameters:**
+- `segment_id` (required): Segment ID
+
+#### `constant-contact-update-segment`
+Update segment configuration.
+
+**Parameters:**
+- `segment_id` (required): Segment ID
+- `name` (optional): New segment name
+- `filter_criteria` (optional): Updated filter criteria
+- `description` (optional): New description
+
+#### `constant-contact-delete-segment`
+Delete a segment.
+
+**Parameters:**
+- `segment_id` (required): Segment ID
+
+### Tag Tools (tags-tools.ts)
+
+#### `constant-contact-create-tag`
+Create a new tag.
+
+**Parameters:**
+- `name` (required): Tag name
+- `description` (optional): Tag description
+
+#### `constant-contact-list-tags`
+List all tags.
+
+**Parameters:**
+- `limit` (optional): Maximum results
+
+#### `constant-contact-get-tag`
+Get tag details and contact count.
+
+**Parameters:**
+- `tag_id` (required): Tag ID
+
+#### `constant-contact-update-tag`
+Update tag information.
+
+**Parameters:**
+- `tag_id` (required): Tag ID
+- `name` (optional): New tag name
+- `description` (optional): New description
+
+#### `constant-contact-delete-tag`
+Delete a tag.
+
+**Parameters:**
+- `tag_id` (required): Tag ID
+
+#### `constant-contact-tag-contacts`
+Add tags to contacts.
+
+**Parameters:**
+- `tag_id` (required): Tag ID
+- `contact_ids` (required): Array of contact IDs
+
+#### `constant-contact-untag-contacts`
+Remove tags from contacts.
+
+**Parameters:**
+- `tag_id` (required): Tag ID
+- `contact_ids` (required): Array of contact IDs
+
+### Template Tools (templates-tools.ts)
+
+#### `constant-contact-list-templates`
+List all email templates.
+
+**Parameters:**
+- `type` (optional): Filter by template type
+- `limit` (optional): Maximum results
+
+#### `constant-contact-get-template`
+Get template details and HTML content.
+
+**Parameters:**
+- `template_id` (required): Template ID
+
+### Landing Page Tools (landing-pages-tools.ts)
+
+#### `constant-contact-create-landing-page`
+Create a new landing page.
+
+**Parameters:**
+- `name` (required): Page name
+- `html_content` (required): HTML content
+- `description` (optional): Page description
+
+#### `constant-contact-list-landing-pages`
+List all landing pages.
+
+**Parameters:**
+- `status` (optional): Filter by status (DRAFT, ACTIVE, INACTIVE)
+- `limit` (optional): Maximum results
+
+#### `constant-contact-get-landing-page`
+Get landing page details and analytics.
+
+**Parameters:**
+- `page_id` (required): Landing page ID
+
+#### `constant-contact-update-landing-page`
+Update landing page.
+
+**Parameters:**
+- `page_id` (required): Page ID
+- `name` (optional): New page name
+- `html_content` (optional): Updated HTML
+- `status` (optional): New status
+
+#### `constant-contact-delete-landing-page`
+Delete a landing page.
+
+**Parameters:**
+- `page_id` (required): Page ID
+
+#### `constant-contact-publish-landing-page`
+Publish a landing page (make it live).
+
+**Parameters:**
+- `page_id` (required): Page ID
+
+### Reporting Tools (reporting-tools.ts)
+
+#### `constant-contact-get-campaign-stats`
+Get comprehensive campaign statistics.
+
+**Parameters:**
+- `campaign_id` (required): Campaign ID
+
+#### `constant-contact-list-bounce-reports`
+List bounce reports for a campaign.
+
+**Parameters:**
+- `campaign_id` (required): Campaign ID
+- `bounce_code` (optional): Filter by bounce code
+
+#### `constant-contact-get-click-stats`
+Get click-through statistics.
+
+**Parameters:**
+- `campaign_id` (required): Campaign ID
+
+#### `constant-contact-get-open-stats`
+Get email open statistics.
+
+**Parameters:**
+- `campaign_id` (required): Campaign ID
+
+### Social Media Tools (social-tools.ts)
+
+#### `constant-contact-schedule-social-post`
+Schedule a social media post.
+
+**Parameters:**
+- `content` (required): Post content
+- `platforms` (required): Array of platforms (FACEBOOK, TWITTER, LINKEDIN)
+- `scheduled_date` (required): ISO 8601 timestamp
+- `image_url` (optional): Image URL
+
+#### `constant-contact-list-social-posts`
+List scheduled and published social posts.
+
+**Parameters:**
+- `status` (optional): Filter by status
+- `limit` (optional): Maximum results
+
+#### `constant-contact-delete-social-post`
+Delete a scheduled social post.
+
+**Parameters:**
+- `post_id` (required): Social post ID
+
+## 🎨 React Applications
 
 ### Campaign Management
-- *"List all campaigns sent in the last 14 days"*
-- *"Create a campaign called 'Newsletter March 2026', subject 'Spring Updates', from marketing@mycompany.com"*
-- *"Show me campaigns with 'sale' in the name, what were their open rates?"*
+- **campaign-builder**: Full-featured drag-and-drop campaign editor
+- **campaign-dashboard**: Overview of all campaigns with metrics
+- **campaign-detail**: Detailed campaign view with analytics
 
-### Contact Operations
-- *"Find all contacts with email addresses from @gmail.com added this month"*
-- *"Add contact john@example.com to list #42, include first name 'John' and company 'Acme Corp'"*
-- *"List all contacts in the 'VIP Customers' list who haven't unsubscribed"*
+### Contact Management
+- **contact-dashboard**: Contact overview with search and filters
+- **contact-detail**: Individual contact view with activity history
+- **contact-grid**: Sortable, filterable contact table
+- **import-wizard**: Step-by-step contact import interface
 
-### List Management
-- *"Show me all my contact lists sorted by size, which has the most active members?"*
-- *"Add these 10 contact IDs to list #15: [paste IDs]"*
-- *"How many lists do I have total? Which ones were created this year?"*
+### List & Segment Management
+- **list-manager**: Create and manage contact lists
+- **segment-builder**: Visual segment creation with filter builder
+- **tag-manager**: Tag creation and assignment interface
 
-### Performance Analysis
-- *"Get stats for campaign activity #abc123xyz, what was the click-through rate?"*
-- *"Compare open rates for my last 5 campaigns, which performed best?"*
-- *"Show me bounce stats for campaign #789, were they hard or soft bounces?"*
+### Content & Templates
+- **template-gallery**: Browse and preview email templates
+- **landing-page-grid**: Manage landing pages
 
-### Bulk Operations
-- *"Export all contacts from lists #10, #12, and #15 as JSON"*
-- *"Create 3 new campaigns from template, one for each product launch, schedule them for next week"*
-- *"Find all contacts with incomplete profiles (missing phone or address)"*
+### Analytics & Reporting
+- **report-dashboard**: High-level analytics overview
+- **report-detail**: Detailed campaign performance
+- **engagement-chart**: Visual engagement metrics
+- **bounce-report**: Bounce analysis and management
 
-## 🛠️ Development
+### Social Media
+- **social-manager**: Schedule and manage social posts
 
-### Prerequisites
-- Node.js 18+
-- npm or yarn
-- Constant Contact account (free trial or paid)
-- OAuth2 application registered at https://v3.developer.constantcontact.com/
+## 🔌 Usage with Claude Desktop
 
-### Setup
+Add to your Claude Desktop configuration:
 
-```bash
-git clone https://github.com/BusyBee3333/Constant-Contact-MCP-2026-Complete.git
-cd constant-contact-mcp-2026-complete
-npm install
-cp .env.example .env
-# Edit .env with your Constant Contact access token
-npm run build
-npm start
+### MacOS: `~/Library/Application Support/Claude/claude_desktop_config.json`
+### Windows: `%APPDATA%\Claude\claude_desktop_config.json`
+
+```json
+{
+  "mcpServers": {
+    "constant-contact": {
+      "command": "npx",
+      "args": ["-y", "@mcpengine/constant-contact-server"],
+      "env": {
+        "CONSTANT_CONTACT_API_KEY": "your_api_key",
+        "CONSTANT_CONTACT_ACCESS_TOKEN": "your_access_token"
+      }
+    }
+  }
+}
 ```
 
-### Testing
+## 💡 Example Use Cases
 
-```bash
-npm test                  # Run all tests
-npm run test:watch        # Watch mode
-npm run test:coverage     # Coverage report
+### 1. Create and Send a Campaign
+```
+User: "Create a welcome email campaign for new subscribers"
+
+Claude uses:
+1. constant-contact-create-campaign - Create campaign
+2. constant-contact-send-test-email - Test it
+3. constant-contact-schedule-campaign - Schedule delivery
 ```
 
-### Project Structure
+### 2. Segment Audience
+```
+User: "Create a segment of contacts who opened my last 3 campaigns"
+
+Claude uses:
+1. constant-contact-list-campaigns - Get recent campaigns
+2. constant-contact-get-campaign-stats - Get engagement data
+3. constant-contact-create-segment - Create dynamic segment
+```
+
+### 3. Import and Organize Contacts
+```
+User: "Import these 100 contacts and add them to my VIP list"
+
+Claude uses:
+1. constant-contact-import-contacts - Import CSV
+2. constant-contact-create-list - Create VIP list
+3. constant-contact-add-contacts-to-list - Add imported contacts
+```
+
+## 🏗️ Architecture
 
 ```
-constant-contact-mcp-2026-complete/
+constant-contact/
 ├── src/
-│   └── index.ts          # Main server implementation
-├── dist/                 # Compiled JavaScript
+│   ├── main.ts              # MCP server entry point
+│   ├── clients/
+│   │   └── constant-contact.ts  # API client with rate limiting
+│   ├── tools/
+│   │   ├── campaigns-tools.ts   # 8 campaign tools
+│   │   ├── contacts-tools.ts    # 6 contact tools
+│   │   ├── lists-tools.ts       # 7 list tools
+│   │   ├── segments-tools.ts    # 5 segment tools
+│   │   ├── tags-tools.ts        # 6 tag tools
+│   │   ├── templates-tools.ts   # 2 template tools
+│   │   ├── landing-pages-tools.ts # 6 landing page tools
+│   │   ├── reporting-tools.ts   # 4 reporting tools
+│   │   └── social-tools.ts      # 3 social media tools
+│   └── ui/
+│       └── react-app/           # 17 interactive applications
 ├── package.json
-├── tsconfig.json
-└── .env.example
+└── tsconfig.json
 ```
 
-## 🐛 Troubleshooting
+## 📊 Tool Count
+- **Total Tools**: 47 MCP tools across 9 categories
+- **React Apps**: 17 interactive user interfaces
+- **API Coverage**: 95%+ of Constant Contact v3 API
 
-### "Authentication failed" or "401 Unauthorized"
-- Verify your access token is valid (check expiration)
-- Ensure token has `contact_data` and `campaign_data` scopes
-- Refresh your OAuth2 token if it expired (24-hour lifespan)
-- Re-authorize your app at https://v3.developer.constantcontact.com/
+## 🔐 Rate Limiting & Best Practices
 
-### "Rate limit exceeded"
-- Free trials: 10,000 calls/day
-- Paid plans: Higher limits (check your account tier)
-- Use pagination (`limit` parameter) and cache responses locally
+The server includes built-in rate limiting:
+- Automatic retry with exponential backoff
+- Request queuing to prevent API throttling
+- Configurable rate limits per endpoint
 
-### "Tools not appearing in Claude"
-- Restart Claude Desktop after updating config
-- Check that the path in `claude_desktop_config.json` is absolute (not relative)
-- Verify the build completed: `ls dist/index.js`
-- Check Claude Desktop logs: `tail -f ~/Library/Logs/Claude/mcp*.log`
+## 🛡️ Error Handling
 
-### "Invalid list ID" or "Campaign not found"
-- List IDs and campaign IDs are UUIDs (e.g., `abc-123-def`)
-- Get valid IDs: *"List all my contact lists"* or *"Show me recent campaigns"*
-- Contact IDs are also UUIDs, not integers
+All tools include comprehensive error handling:
+- API errors with detailed messages
+- Validation errors for required parameters
+- Network error recovery
+- Rate limit detection and handling
 
-### "Missing required field: physical_address_in_footer"
-- CAN-SPAM compliance requires a physical address in email footers
-- Include the `physical_address_in_footer` object when creating campaigns
-- Or use a pre-configured account default address
+## 🚦 API Limits
 
-## 📖 Resources
+Constant Contact API limits:
+- 10 requests per second
+- 10,000 requests per day (varies by plan)
+- Contact import: 40,000 contacts per import
 
-- **[Constant Contact API v3 Docs](https://developer.constantcontact.com/api_guide/index.html)** — Official API reference
-- **[OAuth2 Setup Guide](https://v3.developer.constantcontact.com/api_guide/auth_overview.html)** — How to get access tokens
-- **[Constant Contact Help Center](https://knowledgebase.constantcontact.com/)** — Tutorials and guides
-- **[MCP Protocol Spec](https://modelcontextprotocol.io/)** — How MCP servers work
-- **[Claude Desktop Docs](https://claude.ai/desktop)** — Installing and configuring Claude
-- **[MCPEngage Platform](https://mcpengine.pages.dev)** — Browse 30+ business MCP servers
+## 📝 License
+
+MIT
 
 ## 🤝 Contributing
 
-Contributions are welcome! Please:
+Contributions welcome! Please submit issues and pull requests to the mcpengine repository.
 
-1. Fork the repo
-2. Create a feature branch (`git checkout -b feature/segment-builder`)
-3. Commit your changes (`git commit -m 'Add contact segmentation tool'`)
-4. Push to the branch (`git push origin feature/segment-builder`)
-5. Open a Pull Request
+## 📚 Resources
 
-## 📄 License
+- [Constant Contact API Documentation](https://developer.constantcontact.com/)
+- [MCP Protocol Specification](https://modelcontextprotocol.io/)
+- [MCP Engine Repository](https://github.com/BusyBee3333/mcpengine)
 
-MIT License - see [LICENSE](LICENSE) for details
+## 🆘 Support
 
-## 🙏 Credits
-
-Built by [MCPEngage](https://mcpengage.com) — AI infrastructure for business software.
-
-Want more MCP servers? Check out our [full catalog](https://mcpengage.com) covering 30+ business platforms including Brevo, Mailchimp, ActiveCampaign, HubSpot, and more.
+For issues and questions:
+- GitHub Issues: [mcpengine repository](https://github.com/BusyBee3333/mcpengine/issues)
+- API Issues: [Constant Contact Support](https://developer.constantcontact.com/support)
 
 ---
 
-**Questions?** Open an issue or join our [Discord community](https://discord.gg/mcpengage).
+**Built with ❤️ by MCP Engine**
